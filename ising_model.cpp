@@ -22,11 +22,11 @@ int get_wrapped_index(int index, int grid_size) {
 
 
 int main()  {
-    int grid_size = 10;
+    int grid_size = 100;
     int J = 1;
     int grid[grid_size][grid_size];
 
-    float kT = 1;
+    float kT = 2;
 
     int i,j;
 
@@ -45,59 +45,77 @@ int main()  {
 	}
 
 
-    int nsweeps = 4;
+    int nsweeps = 5000;
     std::ofstream file;
 
     for (int n=0; n<nsweeps; n++)   {
-        // update the grid
+        // do a sweep (grid_size**2 updates)
 
-        // choose random site
-        int j = std::experimental::randint(0, grid_size-1);
-        int k = std::experimental::randint(0, grid_size-1);
+        for (int updates = 0; updates < grid_size*grid_size; updates++) {
 
-        int spin_value = grid[j][k];
+            // choose random site
+            int j = std::experimental::randint(0, grid_size-1);
+            int k = std::experimental::randint(0, grid_size-1);
 
-        int nn_spins[4] = {
-            grid[get_wrapped_index(j+1, grid_size)][k],
-            grid[get_wrapped_index(j-1, grid_size)][k],
-            grid[j][get_wrapped_index(k+1, grid_size)],
-            grid[j][get_wrapped_index(k-1, grid_size)]
-        };
+            int spin_value = grid[j][k];
 
-        int nn_sum = nn_spins[0] + nn_spins[1] + nn_spins[2] + nn_spins[3];
+            int nn_spins[4] = {
+                grid[get_wrapped_index(j+1, grid_size)][k],
+                grid[get_wrapped_index(j-1, grid_size)][k],
+                grid[j][get_wrapped_index(k+1, grid_size)],
+                grid[j][get_wrapped_index(k-1, grid_size)]
+            };
 
-        float deltaE = 2 * J * spin_value * nn_sum;
+            int nn_sum = nn_spins[0] + nn_spins[1] + nn_spins[2] + nn_spins[3];
 
-        float prob_flip = std::exp(-deltaE/kT);
+            float deltaE = 2 * J * spin_value * nn_sum;
 
-        float reference_prob = ((double) rand() / (RAND_MAX));
+            float prob_flip = std::exp(-deltaE/kT);
 
-        if (reference_prob < prob_flip) {
-            grid[j][k] *= -1;
+            float reference_prob = ((double) rand() / (RAND_MAX));
+
+            if (reference_prob < prob_flip) {
+                grid[j][k] *= -1;
+            }
+
         }
 
-        file.open ("output.dat");
+        // write grid to a file
 
-        /* print values in array */
+        file.open ("output.dat");
+        int value;
+
         for(int a=0;a<grid_size;a++)
         {
             for(int b=0;b<grid_size;b++)
             {
-                int value = grid[a][b];
-                if (value == 1) {
-                    std::cout<<"  "<<value;
-                }
-                else    {
-                    std::cout<<" "<<value;
-                }
+                value = grid[a][b];
+                file <<a<<" "<<b<<" "<<value<<"\n";
+
             }
-            std::cout<<std::endl;
+            file<<"\n";
         }
-        std::cout<<"\n\n";
-        std::cout<<j<<" "<<k<<" "<<spin_value<<" "<<deltaE<<"\n\n";
-        std::cout<<nn_spins[0]<<nn_spins[1]<<nn_spins[2]<<nn_spins[3]<<"\n\n";
+
+        file.close();
+
+        /* print values in array */
+        // for(int a=0;a<grid_size;a++)
+        // {
+        //     for(int b=0;b<grid_size;b++)
+        //     {
+        //         int value = grid[a][b];
+        //         if (value == 1) {
+        //             std::cout<<"  "<<value;
+        //         }
+        //         else    {
+        //             std::cout<<" "<<value;
+        //         }
+        //     }
+        //     std::cout<<std::endl;
+        // }
+        // std::cout<<"\n\n";
+        // std::cout<<j<<" "<<k<<" "<<spin_value<<" "<<deltaE<<"\n\n";
+        // std::cout<<nn_spins[0]<<nn_spins[1]<<nn_spins[2]<<nn_spins[3]<<"\n\n";
         // std::cout<<nn_spins[-1%4]<<"\n";
     }
-
-    file.close();
 }
