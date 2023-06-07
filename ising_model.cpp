@@ -82,6 +82,23 @@ int main()  {
 
         // write grid to a file
 
+        // file.open ("output.dat");
+        // int value;
+
+        // for(int a=0;a<grid_size;a++)
+        // {
+        //     for(int b=0;b<grid_size;b++)
+        //     {
+        //         value = grid[a][b];
+        //         file <<a<<" "<<b<<" "<<value<<"\n";
+
+        //     }
+        //     file<<"\n";
+        // }
+
+        // file.close();
+
+        // alternative format: matrix
         file.open ("output.dat");
         int value;
 
@@ -90,7 +107,7 @@ int main()  {
             for(int b=0;b<grid_size;b++)
             {
                 value = grid[a][b];
-                file <<a<<" "<<b<<" "<<value<<"\n";
+                file<<value<<" ";
 
             }
             file<<"\n";

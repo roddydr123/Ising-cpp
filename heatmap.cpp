@@ -3,8 +3,8 @@
 #include <iostream>
 
 // Constants for the heatmap
-const int heatmapWidth = 80;
-const int heatmapHeight = 60;
+const int heatmapWidth = 100;
+const int heatmapHeight = 100;
 const int cellSize = 10;
 
 // Function to read heatmap data from a file
@@ -28,7 +28,7 @@ int main()
     int heatmapData[heatmapWidth][heatmapHeight] = {0};
 
     // Open the heatmap data file
-    std::ifstream file("heatmap_data.txt");
+    std::ifstream file("output.dat");
     if (!file)
     {
         std::cerr << "Failed to open heatmap data file." << std::endl;
@@ -59,7 +59,12 @@ int main()
                 int intensity = heatmapData[i][j];
 
                 // Map intensity to color based on a color gradient or custom rules
-                sf::Color cellColor = sf::Color::Red; // Replace with your own color mapping logic
+                sf::Color cellColor = sf::Color::Blue; // Replace with your own color mapping logic
+
+                if (intensity == 1)  {
+                    // std::cout<<"ya";
+                    cellColor = sf::Color::Red;
+                }
 
                 sf::RectangleShape cell(sf::Vector2f(cellSize, cellSize));
                 cell.setPosition(i * cellSize, j * cellSize);
