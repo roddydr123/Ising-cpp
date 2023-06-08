@@ -4,6 +4,7 @@
 #include <experimental/random>
 #include <numeric>
 #include <fstream>
+#include <cstdio>
 
 
 
@@ -26,7 +27,7 @@ int main()  {
     int J = 1;
     int grid[grid_size][grid_size];
 
-    float kT = 2;
+    float kT = 1;
 
     int i,j;
 
@@ -80,59 +81,35 @@ int main()  {
 
         }
 
+        // Open the temporary heatmap data file
+        char tempFileName[] = "output.tmp";
+        std::ofstream tempFile(tempFileName);
+
+        if (!tempFile)
+        {
+            std::cerr << "Failed to open temporary heatmap data file." << std::endl;
+            return 1;
+        }
+
         // write grid to a file
-
-        // file.open ("output.dat");
-        // int value;
-
-        // for(int a=0;a<grid_size;a++)
-        // {
-        //     for(int b=0;b<grid_size;b++)
-        //     {
-        //         value = grid[a][b];
-        //         file <<a<<" "<<b<<" "<<value<<"\n";
-
-        //     }
-        //     file<<"\n";
-        // }
-
-        // file.close();
-
-        // alternative format: matrix
-        file.open ("output.dat");
         int value;
-
         for(int a=0;a<grid_size;a++)
         {
             for(int b=0;b<grid_size;b++)
             {
                 value = grid[a][b];
-                file<<value<<" ";
+                tempFile <<a<<" "<<b<<" "<<value<<"\n";     // gnuplot form
+                // tempFile<<value<<" ";        // matrix form for sfml
 
             }
-            file<<"\n";
+            tempFile<<"\n";
         }
 
-        file.close();
 
-        /* print values in array */
-        // for(int a=0;a<grid_size;a++)
-        // {
-        //     for(int b=0;b<grid_size;b++)
-        //     {
-        //         int value = grid[a][b];
-        //         if (value == 1) {
-        //             std::cout<<"  "<<value;
-        //         }
-        //         else    {
-        //             std::cout<<" "<<value;
-        //         }
-        //     }
-        //     std::cout<<std::endl;
-        // }
-        // std::cout<<"\n\n";
-        // std::cout<<j<<" "<<k<<" "<<spin_value<<" "<<deltaE<<"\n\n";
-        // std::cout<<nn_spins[0]<<nn_spins[1]<<nn_spins[2]<<nn_spins[3]<<"\n\n";
-        // std::cout<<nn_spins[-1%4]<<"\n";
+        tempFile.close();
+
+        // Rename the temporary file
+        std::remove("output.dat"); // Remove the previous file
+        std::rename(tempFileName, "output.dat"); // Rename the temporary file
     }
 }

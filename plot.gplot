@@ -2,9 +2,13 @@ set pm3d
 set view map
 set cbrange[-1:1]
 while(1)    {
-    unset label
-    unset arrow
-    splot 'output.dat' using 1:2:3 with pm3d
-    pause 0.3
-    replot
+    file_exists = system('[ -f "' . "output.dat" . '" ] && echo "1" || echo "0"')
+
+    if (file_exists){
+        splot 'output.dat' using 1:2:3 with pm3d
+        replot
+    }else   {
+        print "np"
+    }
+    pause 0.2
 }
