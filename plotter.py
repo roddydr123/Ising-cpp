@@ -18,7 +18,7 @@ def main():
     data = np.genfromtxt(filename, delimiter=" ")
     fig, ax = plt.subplots()
     im = ax.imshow(data)
-    ani = FuncAnimation(fig, updateFigure, fargs=(im, filename))
+    ani = FuncAnimation(fig, updateFigure, fargs=(im, filename), interval=100)
     plt.show()
 
 main()
