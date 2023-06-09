@@ -27,7 +27,7 @@ int main()  {
     int J = 1;
     int grid[grid_size][grid_size];
 
-    float kT = 1;
+    float kT = 1.5;
 
     int i,j;
 
@@ -98,8 +98,8 @@ int main()  {
             for(int b=0;b<grid_size;b++)
             {
                 value = grid[a][b];
-                tempFile <<a<<" "<<b<<" "<<value<<"\n";     // gnuplot form
-                // tempFile<<value<<" ";        // matrix form for sfml
+                // tempFile <<a<<" "<<b<<" "<<value<<"\n";     // gnuplot form
+                tempFile<<value<<" ";        // matrix form for sfml and matplotlib
 
             }
             tempFile<<"\n";
