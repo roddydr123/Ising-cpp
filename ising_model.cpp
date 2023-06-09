@@ -22,12 +22,13 @@ int get_wrapped_index(int index, int grid_size) {
 
 
 
-int main()  {
-    int grid_size = 100;
-    int J = 1;
-    int grid[grid_size][grid_size];
+int main(int argc, char *argv[])  {
 
-    float kT = 1.5;
+    int grid_size = std::stoi(argv[1]);
+    float kT = std::stof(argv[2]);
+    int J = 1;
+
+    int grid[grid_size][grid_size];
 
     int i,j;
 
