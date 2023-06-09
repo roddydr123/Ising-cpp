@@ -7,3 +7,5 @@ To visualise the animation, run `python plotter.py` which will open a window whi
 ![](stripes.png)
 
 Example of the system at a nearly steady state with a single vertical stripe of up spins and down spins.
+
+`other_plotting_methods/` contains scripts to visualise the output using gnuplot and SFML which did not work as well as matplotlib.
